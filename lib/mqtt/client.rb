@@ -301,7 +301,7 @@ private
         @socket.close
         @socket = nil
       end
-      Thread.current[:parent].raise(exp)
+      #Thread.current[:parent].raise(exp)
     end
   end
 
