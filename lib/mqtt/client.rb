@@ -197,7 +197,19 @@ class MQTT::Client
     )
 
     # Send the packet
-    send_packet(packet)
+		begin
+    	send_packet(packet)
+		rescue Exception => e
+			puts 'MQTT SEND PACKET ERR'
+			puts e
+			puts e.backtrace
+			puts "DISCONNECT MQTT"
+			disconnect
+			puts "RECONNECT"
+			connect
+			puts "RE-SEND"
+			send_packet(packet)
+		end
   end
 
   # Send a subscribe message for one or more topics on the MQTT broker.
