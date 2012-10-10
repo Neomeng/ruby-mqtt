@@ -163,13 +163,16 @@ class MQTT::Client
   # If you don't want to say goodbye to the broker, set send_msg to false.
   def disconnect(send_msg=true)
     if connected?
+			puts "IN DISCONNECT - 1"
       if send_msg
+				puts "IN DISCONNECT - 2"
         packet = MQTT::Packet::Disconnect.new
         send_packet(packet)
       end
       @socket.close unless @socket.nil?
       @socket = nil
     end
+		puts "KILL THREAD IN DISCONNECT - 2"
     @read_thread.kill if @read_thread and @read_thread.alive?
     @read_thread = nil
   end
@@ -204,7 +207,7 @@ class MQTT::Client
 			puts e
 			puts e.backtrace
 			puts "DISCONNECT MQTT"
-			disconnect
+			disconnect(false)
 			puts "RECONNECT"
 			connect
 			puts "RE-SEND"
